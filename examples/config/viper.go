@@ -1,23 +1,28 @@
-package config
+package main
 
 import (
-	"testing"
+	"fmt"
+	"go-vue-admin/pkg/config"
 )
 
-const path = "../../configs/config.yaml"
+const path = "./configs/config.yaml"
 
-func TestReadConfig(t *testing.T) {
-	v := NewViper()
+func main() {
+	v := config.NewViper()
 	err := v.Load(path)
 	if err != nil {
-		t.Log(err)
+		fmt.Println(err)
 	}
 	conf, err := v.Parse(&Config{})
 	if err != nil {
-		t.Log(err)
+		fmt.Println(err)
 	}
 	cfg := conf.(*Config)
-	t.Log(cfg.Logger.TimeFormat)
+	fmt.Println(cfg.Logger.TimeFormat)
+	v.WatchConfig()
+	for <-v.Notify {
+		fmt.Println(cfg.Logger.LoggerFilePath)
+	}
 }
 
 type Config struct {

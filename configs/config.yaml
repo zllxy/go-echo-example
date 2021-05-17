@@ -5,7 +5,7 @@ app:
   JwtSecret: JWT_SECRET
   JwtTimeout: 86400
   Debug: true
-  Addr: :8081
+  Addr: :8080
   Timeout: 5
 
 logger:

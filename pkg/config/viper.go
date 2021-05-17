@@ -8,12 +8,14 @@ import (
 )
 
 type Viper struct {
-	viper *viper.Viper
+	viper  *viper.Viper
+	Notify chan bool
 }
 
 func NewViper() *Viper {
 	return &Viper{
-		viper: viper.New(),
+		viper:  viper.New(),
+		Notify: make(chan bool, 1),
 	}
 }
 
@@ -26,9 +28,9 @@ func (v *Viper) Load(path string) error {
 		v.viper.SetConfigName("config")
 	}
 	v.viper.SetConfigType("yaml") // 设置配置文件格式为YAML
-	if err :=v.viper.ReadInConfig(); err != nil {
+	if err := v.viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			return  errors.New("config file not found")
+			return errors.New("config file not found")
 		}
 		return err
 	}
@@ -47,9 +49,13 @@ func (v *Viper) Parse(conf interface{}) (interface{}, error) {
 	return conf, nil
 }
 
-func (v *Viper)WatchConfig() {
-	v.viper.WatchConfig()
-	v.viper.OnConfigChange(func(e fsnotify.Event) {
-		log.Printf("Config file changed: %s", e.Name)
-	})
+func (v *Viper) WatchConfig() {
+	go func() {
+		v.viper.WatchConfig()
+		v.viper.OnConfigChange(func(e fsnotify.Event) {
+			log.Printf("Config file changed: %s", e.Name)
+			//通知配置文件更新
+			v.Notify <- true
+		})
+	}()
 }
