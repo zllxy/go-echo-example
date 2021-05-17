@@ -8,8 +8,6 @@ import (
 	"time"
 )
 
-var ZapLog *zap.SugaredLogger
-
 var defaultTimeFormat = "2006-01-02 15:04:05"
 
 var loggerLevelMap = map[string]zapcore.Level{
@@ -29,10 +27,10 @@ type ZapLogger struct {
 	writerSyncer zapcore.WriteSyncer
 	debugLevel   zapcore.Level
 	logger       *zap.Logger
-	conf         *Config
+	conf         *LogConf
 }
 
-func InitZap(w io.Writer, conf *Config) {
+func NewZapLogger(w io.Writer, conf *LogConf) *ZapLogger {
 	if conf.TimeFormat != "" {
 		defaultTimeFormat = conf.TimeFormat
 	}
@@ -42,7 +40,7 @@ func InitZap(w io.Writer, conf *Config) {
 	z.setDebugLevel()
 	z.setCore()
 	z.setLogger()
-	ZapLog = z.logger.Sugar()
+	return z
 }
 
 func (z *ZapLogger) setCore() {

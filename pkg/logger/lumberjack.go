@@ -11,7 +11,7 @@ type Writer struct {
 	FileName func() string
 }
 
-func NewWriter(cfg *Config) *Writer {
+func NewWriter(cfg *WriterConf) *Writer {
 	logger := &lumberjack.Logger{
 		MaxSize:    cfg.LogRotateSize,
 		MaxBackups: cfg.LogBackupCount,
@@ -23,7 +23,7 @@ func NewWriter(cfg *Config) *Writer {
 		FileName: getFileName(cfg),
 	}
 }
-func getFileName(cfg *Config) func() string {
+func getFileName(cfg *WriterConf) func() string {
 	return func() string {
 		timeNow := time.Now()
 		fileDir := timeNow.Format("200601")
