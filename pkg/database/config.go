@@ -3,6 +3,7 @@ package database
 import "time"
 
 type Config struct {
+	Driver          string
 	Name            string
 	Addr            string
 	UserName        string
