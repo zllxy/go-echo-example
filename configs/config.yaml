@@ -1,25 +1,19 @@
 app:
-  Name: go_vue_admin
+  Name: go-echo-example
   Version: 1.0.0
-  Mode: debug                 # debug, release, test
-  JwtSecret: JWT_SECRET
-  JwtTimeout: 86400
   Debug: true
-  Addr: :8080
+  Addr: :8081
   Timeout: 5
 
 logger:
-  IsDevMode: false
-  DisableCaller: false
-  Level: debug                             # 日志级别，DEBUG, INFO, WARN, ERROR, FATAL
-  Name: go-vue-admin
-  LoggerFilePath: ./tmp/log
+  LoggerFilePath: ../tmp/log
   LogRotateDate: 1
   LogRotateSize: 1
   LogBackupCount: 7
-  TimeFormat: "2006-01-02 15:04:05"
+  Compress: true
 
-database:
+db:
+  Driver: "mysql"
   Name: test                     # 数据库名称
   Addr: 127.0.0.1:3306            # 如果是 docker,可以替换为 对应的服务名称，eg: db:3306
   UserName: root

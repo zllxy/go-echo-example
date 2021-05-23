@@ -1,4 +1,4 @@
-package database
+package db
 
 import (
 	"testing"
@@ -12,10 +12,10 @@ type User struct {
 	Birthday int64  `gorm.birthday`
 }
 
-func TestNewDatabase(t *testing.T) {
-	db := NewDatabase(getConfig())
-	defer db.Close()
-	db.DB.Create(&User{
+func TestInit(t *testing.T) {
+	db, _ := New(getConfig())
+
+	db.Create(&User{
 		Name:     "zzz",
 		Age:      18,
 		Birthday: time.Now().Unix(),
@@ -23,17 +23,16 @@ func TestNewDatabase(t *testing.T) {
 }
 
 func TestSelect(t *testing.T) {
-	db := NewDatabase(getConfig())
-	defer db.Close()
+	db, _ := New(getConfig())
 	var user User
-	db.DB.First(&user)
+	db.First(&user)
 	t.Log(user)
 }
 
-func getConfig() *Config {
-	return &Config{
+func getConfig() *Conf {
+	return &Conf{
 		Driver:          "mysql",
-		Name:            "test",
+		DbName:          "test",
 		Addr:            "127.0.0.1:3306",
 		UserName:        "root",
 		Password:        "root",

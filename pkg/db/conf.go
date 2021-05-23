@@ -1,10 +1,10 @@
-package database
+package db
 
 import "time"
 
-type Config struct {
+type Conf struct {
 	Driver          string
-	Name            string
+	DbName          string
 	Addr            string
 	UserName        string
 	Password        string

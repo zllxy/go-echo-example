@@ -1,11 +1,10 @@
-package logger
+package log
 
-// Config Logger config
-type Config struct {
+// Conf Logger conf
+type Conf struct {
 	LoggerFilePath string
 	LogRotateDate  int
 	LogRotateSize  int
 	LogBackupCount int
 	Compress       bool
-	TimeFormat    string
 }
